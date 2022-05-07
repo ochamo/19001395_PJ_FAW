@@ -1,0 +1,38 @@
+DROP DATABASE IF EXISTS PJ_19001395_FAW;
+
+CREATE DATABASE PJ_19001395_FAW;
+
+USE PJ_19001395_FAW;
+
+CREATE TABLE Sex(
+    SexId INT AUTO_INCREMENT,
+    Description VARCHAR(100),
+    PRIMARY KEY (SexId)
+);
+
+CREATE TABLE User(
+    UserId INT AUTO_INCREMENT,
+    SexId INT NOT NULL,
+    UserName VARCHAR(100) NOT NULL,
+    Name VARCHAR(255) NOT NULL,
+    Pass VARCHAR(100) NOT NULL,
+    BirthDate DATE NOT NULL,
+    PRIMARY KEY (UserId),
+    UNIQUE (UserName),
+    FOREIGN KEY (SexId) REFERENCES Sex(SexId)
+);
+
+CREATE TABLE Editorial(
+    EditorialId INT AUTO_INCREMENT,
+    Name VARCHAR(255) NOT NULL,
+    PRIMARY KEY (EditorialId)
+);
+
+CREATE TABLE Comic(
+    ComicId INT AUTO_INCREMENT,
+    IdEditorial INT NOT NULL,
+    PrintYear VARCHAR(4) NOT NULL,
+    Sinopsis TEXT,
+    PRIMARY KEY (ComicId),
+    FOREIGN KEY (ComicId) REFERENCES Editorial(EditorialId)
+);

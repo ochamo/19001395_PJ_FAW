@@ -10,6 +10,11 @@ CREATE TABLE Sex(
     PRIMARY KEY (SexId)
 );
 
+CREATE PROCEDURE  SP_GetSexes()
+    BEGIN
+        SELECT * FROM Sex;
+    END;
+
 INSERT INTO Sex(Description) VALUES('Masculino');
 INSERT INTO Sex(Description) VALUES('Femenino');
 
@@ -33,13 +38,15 @@ CREATE PROCEDURE SP_InsertUser(
     IN BirthDate DATE)
     BEGIN
         INSERT INTO User(SexId, UserName, Name, Pass, BirthDate)
-            VALUES(@SexId, @UserName, @Name, MD5(@Pass), @BirthDate);
+            VALUES(SexId, UserName, Name, MD5(Pass), BirthDate);
     END;
 
-CREATE PROCEDURE SP_GET_LOGIN(IN UserName VARCHAR(100), IN Pass VARCHAR(100))
+CALL SP_InsertUser(1, 'ottod', 'name', 'pass', NOW());
+
+CREATE PROCEDURE SP_Get_Login(IN UserName VARCHAR(100), IN Pass VARCHAR(100))
     BEGIN
-        SELECT * FROM User WHERE
-            UserName = @UserName AND Pass = MD5(@Pass);
+        SELECT * FROM User U WHERE
+            U.UserName = UserName AND U.Pass = MD5(Pass);
     END;
 
 CREATE TABLE Editorial(
@@ -48,36 +55,44 @@ CREATE TABLE Editorial(
     PRIMARY KEY (EditorialId)
 );
 
+CREATE PROCEDURE SP_Get_Editorial()
+    BEGIN
+        SELECT * FROM Editorial;
+    END;
+
 INSERT INTO Editorial(Name) VALUES('MARVEL');
 INSERT INTO Editorial(Name) VALUES('DC Comics');
 INSERT INTO Editorial(Name) VALUES('IMAGE');
 
 CREATE TABLE Comic(
     ComicId INT AUTO_INCREMENT,
+    UserId INT NOT NULL,
     Name VARCHAR(255) NOT NULL,
     IdEditorial INT NOT NULL,
     PrintYear VARCHAR(4) NOT NULL,
     Sinopsis TEXT NOT NULL,
     PRIMARY KEY (ComicId),
-    FOREIGN KEY (ComicId) REFERENCES Editorial(EditorialId)
+    FOREIGN KEY (IdEditorial) REFERENCES Editorial(EditorialId),
+    FOREIGN KEY (UserId) REFERENCES User(UserId)
 );
 
 
 CREATE PROCEDURE SP_InsertComic(
     IN Name VARCHAR(255),
     IN IdEditorial INT,
+    IN UserId INT,
     IN PrintYear VARCHAR(4),
     IN Sinopsis TEXT
 )
     BEGIN
-        INSERT INTO Comic(Name, IdEditorial, PrintYear, Sinopsis)
-            VALUES(@Name, @IdEditorial, @PrintYear, @Sinopsis);
+        INSERT INTO Comic(Name, UserId, IdEditorial, PrintYear, Sinopsis)
+            VALUES(Name, UserId, IdEditorial, PrintYear, Sinopsis);
     END;
 
-CREATE PROCEDURE SP_GetComics(IN ComicId INT)
+CREATE PROCEDURE SP_GetComics(IN LastId INT)
     BEGIN
         SELECT * FROM Comic
-            WHERE ComicId > @ComicId
+            WHERE ComicId > LastId
             LIMIT 100;
     END;
 
@@ -89,16 +104,16 @@ CREATE PROCEDURE SP_UpdateComic(
     IN Sinopsis TEXT
 )
     BEGIN
-        UPDATE Comic SET Name = @Name,
-                IdEditorial = @IdEditorial,
-                PrintYear = @PrintYear,
-                Sinopsis = @Sinopsis
-        WHERE ComicId = @ComicId;
+        UPDATE Comic SET Name = Name,
+                IdEditorial = IdEditorial,
+                PrintYear = PrintYear,
+                Sinopsis = Sinopsis
+        WHERE ComicId = ComicId;
     END;
 
 CREATE PROCEDURE SP_DeleteComic(
     IN ComicId INT
 )
     BEGIN
-        DELETE FROM Comic WHERE ComicId = @ComicId;
+        DELETE FROM Comic WHERE ComicId = ComicId;
     END;

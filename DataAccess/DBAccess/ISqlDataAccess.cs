@@ -12,5 +12,9 @@ namespace DataAccess
 
         Task SaveData<T>(string sql, T data, string connectionId = "Default");
 
+        Task<T> Single<T, P>(string sql, P parameters, string connectionId = "Default");
+        
+        Task DeleteSingle<P>(string sql, P parameters, string connectionId = "Default");
+
     }
 }

@@ -8,6 +8,7 @@ namespace Infrastructure.Model
 {
     public class AuthModel
     {
-        public string Jwt { get; set; } 
+        public string Jwt { get; set; }
+        public int Xyz { get; set; }
     }
 }

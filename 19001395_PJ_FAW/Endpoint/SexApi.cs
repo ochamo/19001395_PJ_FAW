@@ -9,7 +9,7 @@ namespace _19001395_PJ_FAW.Endpoint
     {
         public static void ConfigureSexApi(this WebApplication app)
         {
-            app.MapGet("/Sex", GetSexes).RequireAuthorization();
+            app.MapGet("/Sex", GetSexes);
         }
 
         private static async Task<IResult> GetSexes(GetSexesUseCase getSexesUseCase)

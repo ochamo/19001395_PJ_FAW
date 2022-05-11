@@ -9,6 +9,7 @@ namespace Infrastructure.Model
     public class ComicModel
     {
         public int ComicId { get; set; }
+        public int UserId { get; set; }
         public string Name { get; set; }
         public int IdEditorial { get; set; }
 

@@ -89,10 +89,10 @@ CREATE PROCEDURE SP_InsertComic(
             VALUES(Name, UserId, IdEditorial, PrintYear, Sinopsis);
     END;
 
-CREATE PROCEDURE SP_GetComics(IN LastId INT)
+CREATE PROCEDURE SP_GetComics(IN LastComicId INT)
     BEGIN
-        SELECT * FROM Comic
-            WHERE ComicId > LastId
+        SELECT ComicId, Name, IdEditorial, PrintYear, Sinopsis, UserId FROM Comic
+            WHERE ComicId > LastComicId
             LIMIT 100;
     END;
 

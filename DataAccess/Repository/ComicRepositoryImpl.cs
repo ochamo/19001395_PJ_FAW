@@ -27,7 +27,7 @@ namespace DataAccess.Repository
         public async Task<IEnumerable<ComicModel>> GetComics(GetComicsDTO getComicsDTO)
         {
             var comicEntities = await db.LoadData<Comic, GetComicsDTO>(Procedures.GetComics, getComicsDTO);
-            return comicEntities.Select(p => new ComicModel() { ComicId = p.ComicId, IdEditorial = p.IdEditorial, Name = p.Name, PrintYear = p.PrintYear, Sinopsis = p.Sinopsis });
+            return comicEntities.Select(p => new ComicModel() { UserId = p.UserId, ComicId = p.ComicId, IdEditorial = p.IdEditorial, Name = p.Name, PrintYear = p.PrintYear, Sinopsis = p.Sinopsis });
         }
 
         public Task UpdateComic(UpdateComicDTO updateComicDTO) => db.SaveData(Procedures.UpdateComic, updateComicDTO);

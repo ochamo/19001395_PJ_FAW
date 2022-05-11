@@ -45,7 +45,7 @@ namespace _19001395_PJ_FAW.Endpoint
                     issuer: configuration["Jwt:Issuer"],
                     audience: configuration["Jwt:Audience"],
                     claims: claims,
-                    expires: DateTime.UtcNow.AddHours(1),
+                    expires: DateTime.UtcNow.AddHours(3),
                     notBefore: DateTime.UtcNow,
                     signingCredentials: new SigningCredentials(
                         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
@@ -53,7 +53,7 @@ namespace _19001395_PJ_FAW.Endpoint
                     )
                 );
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-                return Results.Ok(new AuthModel() { Jwt =  tokenString});
+                return Results.Ok(new AuthModel() { Jwt =  tokenString, Xyz = result.Value.UserId });
             } else
             {
                 return Results.Json(result.Error, statusCode: 404);

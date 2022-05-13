@@ -27,7 +27,7 @@ namespace Business.UseCase.Comic
                 await comicRepository.UpdateComic(p);
                 return Result.Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Result.Fail(new ErrorModel(ErrorCodes.GeneralError));
             }

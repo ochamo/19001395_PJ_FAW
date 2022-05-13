@@ -22,7 +22,7 @@ namespace Business.UseCase.Comic
                 await comicRepository.CreateComic(p);
                 return Result.Ok();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return Result.Fail(new ErrorModel(ErrorCodes.GeneralError));
             }

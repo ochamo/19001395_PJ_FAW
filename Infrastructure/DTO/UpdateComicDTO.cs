@@ -8,12 +8,12 @@ namespace Infrastructure.DTO
 {
     public class UpdateComicDTO
     {
-        public int ComicId { get; set; }
-        public string Name { get; set; }
-        public int IdEditorial { get; set; }
+        public int IdComic { get; set; }
+        public string ComicName { get; set; }
+        public int ComicEditorial { get; set; }
 
-        public string PrintYear { get; set; }
+        public string ComicPrintYear { get; set; }
 
-        public string Sinopsis { get; set; }
+        public string ComicSinopsis { get; set; }
     }
 }

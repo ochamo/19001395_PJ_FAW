@@ -2,6 +2,8 @@
 using Business.UseCase.Comic;
 using Infrastructure.DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace _19001395_PJ_FAW.Endpoint
@@ -22,7 +24,7 @@ namespace _19001395_PJ_FAW.Endpoint
 
             if (result.Success)
             {
-                return Results.Ok(result);
+                return Results.Ok(result.Value);
             } else
             {
                 return Results.Problem(JsonSerializer.Serialize(result.Error));
@@ -30,9 +32,18 @@ namespace _19001395_PJ_FAW.Endpoint
 
         }
 
-        private static async Task<IResult> CreateComic(CreateComicDTO p, CreateComicUseCase createComicUseCase)
+        private static async Task<IResult> CreateComic([FromHeader(Name = "Authorization")] string authorization, CreateComicDTO p, CreateComicUseCase createComicUseCase)
         {
+
+            var token = authorization.Replace("Bearer ", "");
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var jsonToken = jwtHandler.ReadToken(token) as JwtSecurityToken;
+            var id = jsonToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+            p.UserId = int.Parse(id);
+
             var result = await createComicUseCase.Execute(p);
+
+
 
             if (result.Success)
             {
@@ -56,12 +67,16 @@ namespace _19001395_PJ_FAW.Endpoint
             }
         }
 
-        private static async Task<IResult> DeleteComic(int comicId, [FromBody] DeleteComicDTO p, DeleteComicUseCase deleteComicUseCase)
+        private static async Task<IResult> DeleteComic(int comicId, DeleteComicUseCase deleteComicUseCase)
         {
-            var result = await deleteComicUseCase.Execute(p);
+            var dto = new DeleteComicDTO()
+            {
+                ComicId = comicId,
+            };
+            var result = await deleteComicUseCase.Execute(dto);
             if (result.Success)
             {
-                return Results.Ok(result);
+                return Results.Ok(result.Value);
             } else 
             {
                 return Results.Problem(JsonSerializer.Serialize(result.Error));

@@ -97,23 +97,24 @@ CREATE PROCEDURE SP_GetComics(IN LastComicId INT)
     END;
 
 CREATE PROCEDURE SP_UpdateComic(
-    IN ComicId INT,
-    IN Name VARCHAR(255),
-    IN IdEditorial INT,
-    IN PrintYear VARCHAR(4),
-    IN Sinopsis TEXT
+    IN IdComic INT,
+    IN ComicName VARCHAR(255),
+    IN ComicEditorial INT,
+    IN ComicPrintYear VARCHAR(4),
+    IN ComicSinopsis TEXT
 )
     BEGIN
-        UPDATE Comic SET Name = Name,
-                IdEditorial = IdEditorial,
-                PrintYear = PrintYear,
-                Sinopsis = Sinopsis
-        WHERE ComicId = ComicId;
+        UPDATE Comic c SET c.Name = ComicName,
+                c.IdEditorial = ComicEditorial,
+                c.PrintYear = ComicPrintYear,
+                c.Sinopsis = ComicSinopsis
+        WHERE c.ComicId = IdComic;
     END;
+
 
 CREATE PROCEDURE SP_DeleteComic(
     IN ComicId INT
 )
     BEGIN
-        DELETE FROM Comic WHERE ComicId = ComicId;
+        DELETE FROM Comic c WHERE c.ComicId = ComicId;
     END;

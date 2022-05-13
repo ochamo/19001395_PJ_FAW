@@ -16,7 +16,7 @@ namespace DataAccess.DBAccess
 
         public async Task DeleteSingle<P>(string sql, P parameters, string connectionId = "Default")
         {
-            using MySqlConnection mySqlConnection = new MySqlConnection(connectionId);
+            using MySqlConnection mySqlConnection = new MySqlConnection(config.GetConnectionString(connectionId));
 
             await mySqlConnection.ExecuteAsync(sql, parameters, commandType: CommandType.StoredProcedure);
         }

@@ -43,8 +43,6 @@ namespace _19001395_PJ_FAW.Endpoint
 
             var result = await createComicUseCase.Execute(p);
 
-
-
             if (result.Success)
             {
                 return Results.Ok(result);

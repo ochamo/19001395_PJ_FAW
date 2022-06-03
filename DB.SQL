@@ -49,6 +49,7 @@ CREATE PROCEDURE SP_Get_Login(IN UserName VARCHAR(100), IN Pass VARCHAR(100))
             U.UserName = UserName AND U.Pass = MD5(Pass);
     END;
 
+
 CREATE TABLE Editorial(
     EditorialId INT AUTO_INCREMENT,
     Name VARCHAR(255) NOT NULL,
@@ -89,11 +90,11 @@ CREATE PROCEDURE SP_InsertComic(
             VALUES(Name, UserId, IdEditorial, PrintYear, Sinopsis);
     END;
 
+DROP PROCEDURE IF EXISTS SP_GetComics;
 CREATE PROCEDURE SP_GetComics(IN LastComicId INT)
     BEGIN
         SELECT ComicId, Name, IdEditorial, PrintYear, Sinopsis, UserId FROM Comic
-            WHERE ComicId > LastComicId
-            LIMIT 100;
+            WHERE ComicId > LastComicId;
     END;
 
 CREATE PROCEDURE SP_UpdateComic(
